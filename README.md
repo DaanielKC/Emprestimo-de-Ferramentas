@@ -1,6 +1,6 @@
 # 🛠️ Sistema de Empréstimo de Ferramentas (TUI)
 
-Um sistema completo de terminal (TUI - Terminal User Interface) para empréstimo e compartilhamento comunitário de ferramentas, construído com **Python 3.10+**, **Textual** e **SQLite**.
+Um sistema completo de terminal (TUI - Terminal User Interface) para empréstimo e compartilhamento comunitário de ferramentas, construído com **Python 3.10+**, **Textual** e **SQLite**. O código foi criado com o Google Antigravity, utilizando o modelo Gemini 3.8 Flash.
 
 ---
 
