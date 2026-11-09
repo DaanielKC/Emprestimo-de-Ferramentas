@@ -21,7 +21,7 @@ class FerramentasApp(App):
     """Aplicação Principal Textual para Empréstimo de Ferramentas."""
 
     CSS_PATH = "styles.tcss"
-    TITLE = "🛠️ FerramentaLivre - Sistema de Empréstimo de Ferramentas"
+    TITLE = "FerramentaLivre - Sistema de Empréstimo de Ferramentas"
     SUB_TITLE = "Interface TUI em Terminal"
 
     # Estado reativo do usuário autenticado no sistema (None = Visitante)
