@@ -18,6 +18,11 @@ Header {
     border-bottom: solid #313244;
 }
 
+HeaderClock {
+    background: #11111b;
+    color: #89b4fa; /* Mantém a cor do texto combinando com o Header */
+}
+
 Footer {
     background: #11111b;
     color: #a6adc8;
@@ -108,6 +113,17 @@ Footer {
     margin-bottom: 1;
 }
 
+/* Faz o Input ocupar o espaço flexível restante na horizontal */
+#search-bar-container Input {
+    width: 1fr;
+    margin-right: 1; /* Espaçamento opcional entre o input e o botão */
+}
+
+/* Garante que o botão tenha o tamanho automático baseado no seu texto */
+#search-bar-container Button {
+    width: auto;
+}
+
 #tools-table {
     height: 1fr;
     border: solid #45475a;
@@ -131,9 +147,10 @@ Footer {
 .action-bar {
     height: 4;
     dock: bottom;
-    padding: 1 0;
+    padding: 0 2;
     align: right middle;
     background: #181825;
+    border-top: solid #181825; /* Separação entre da descrição */
 }
 
 .action-bar Button {
@@ -290,4 +307,23 @@ ModalScreen {
 .text-error {
     color: #f38ba8;
     margin: 1 0;
+}
+
+/* Estado padrão (Visitante) */
+#logged-in-buttons {
+    display: none;
+    overflow-y: auto; /* Cria a barra de rolagem automática sem bugar o display */
+}
+
+#visitor-buttons {
+    display: block;
+}
+
+/* Estado Logado (Aplicado na App inteira) */
+.logged-in #visitor-buttons {
+    display: none;
+}
+
+.logged-in #logged-in-buttons {
+    display: block;
 }

@@ -17,7 +17,7 @@ pip install textual
 Navegue até a pasta do projeto e inicie o sistema:
 
 ```bash
-cd "caminho-da-pasta"
+cd ./Emprestimo-de-Ferramentas
 python app.py
 ```
 

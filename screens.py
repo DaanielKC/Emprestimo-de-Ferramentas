@@ -62,7 +62,7 @@ class RequireLoginModal(ModalScreen[bool]):
 
     def compose(self) -> ComposeResult:
         with Vertical(classes="modal-dialog"):
-            yield Label("🔒 Autenticação Necessária", classes="modal-title")
+            yield Label("Autenticação Necessária", classes="modal-title")
             yield Static(
                 "Para solicitar o empréstimo de uma ferramenta e visualizar o "
                 "telefone de contato do proprietário, você precisa estar conectado à sua conta.\n\n"
@@ -70,8 +70,8 @@ class RequireLoginModal(ModalScreen[bool]):
                 classes="modal-body"
             )
             with Horizontal(classes="modal-buttons"):
-                yield Button("🔙 Voltar", variant="default", id="btn-back")
-                yield Button("🔑 Fazer Login / Cadastrar", variant="success", id="btn-go-auth")
+                yield Button("Voltar", variant="default", id="btn-back")
+                yield Button("Fazer Login / Cadastrar", variant="success", id="btn-go-auth")
 
     def on_button_pressed(self, event: Button.Pressed) -> None:
         if event.button.id == "btn-go-auth":
@@ -93,7 +93,7 @@ class BorrowModal(ModalScreen[None]):
     def compose(self) -> ComposeResult:
         status_color = "green" if self.tool.get("status") == "Disponível" else "yellow"
         with Vertical(classes="modal-dialog"):
-            yield Label("🤝 Negociar Empréstimo", classes="modal-title")
+            yield Label("Negociar Empréstimo", classes="modal-title")
             yield Static(
                 f"[bold cyan]{self.tool.get('name')}[/]\n"
                 f"Proprietário: [bold]{self.tool.get('owner_name')}[/]\n"
@@ -102,7 +102,7 @@ class BorrowModal(ModalScreen[None]):
                 classes="modal-body"
             )
             with Vertical(classes="modal-phone-box"):
-                yield Label("📞 CONTATO DIRETO DO PROPRIETÁRIO:")
+                yield Label("CONTATO DIRETO DO PROPRIETÁRIO:")
                 yield Label(f"[bold]{self.tool.get('contact_phone')}[/]")
                 yield Static(
                     "[dim]Ligue ou envie mensagem via WhatsApp para combinar o local e a devolução.[/]"
@@ -129,11 +129,11 @@ class AuthScreen(Screen):
         yield Header(show_clock=True)
         with Vertical(classes="screen-container"):
             with Vertical(classes="form-container"):
-                yield Label("🔐 Autenticação de Usuário", classes="screen-header-title")
+                yield Label("Autenticação de Usuário", classes="screen-header-title")
                 yield Label("Acesse sua conta existente ou cadastre-se gratuitamente:", classes="screen-header-desc")
 
                 with TabbedContent():
-                    with TabPane("🔑 Fazer Login", id="tab-login"):
+                    with TabPane("Fazer Login", id="tab-login"):
                         yield Label("Nome de Usuário:", classes="form-label")
                         yield Input(placeholder="Digite seu usuário...", id="login-username", classes="form-input")
 
@@ -141,10 +141,10 @@ class AuthScreen(Screen):
                         yield Input(placeholder="Digite sua senha...", password=True, id="login-password", classes="form-input")
 
                         with Horizontal(classes="form-buttons"):
-                            yield Button("🔙 Voltar", variant="default", id="btn-login-back")
+                            yield Button("Voltar", variant="default", id="btn-login-back")
                             yield Button("Entrar", variant="success", id="btn-login-submit")
 
-                    with TabPane("📝 Criar Nova Conta", id="tab-register"):
+                    with TabPane("Criar Nova Conta", id="tab-register"):
                         yield Label("Escolha um Nome de Usuário:", classes="form-label")
                         yield Input(placeholder="Ex: joaosilva", id="reg-username", classes="form-input")
 
@@ -155,7 +155,7 @@ class AuthScreen(Screen):
                         yield Input(placeholder="Repita a senha...", password=True, id="reg-confirm", classes="form-input")
 
                         with Horizontal(classes="form-buttons"):
-                            yield Button("🔙 Voltar", variant="default", id="btn-reg-back")
+                            yield Button("Voltar", variant="default", id="btn-reg-back")
                             yield Button("Criar Conta e Entrar", variant="primary", id="btn-reg-submit")
 
         yield Footer()
@@ -231,14 +231,14 @@ class ToolListScreen(Screen):
     def compose(self) -> ComposeResult:
         yield Header(show_clock=True)
         with Vertical(classes="screen-container"):
-            yield Label("📋 Catálogo de Ferramentas Disponíveis", classes="screen-header-title")
+            yield Label("Catálogo de Ferramentas Disponíveis", classes="screen-header-title")
             yield Label(
                 "Selecione uma ferramenta da lista para ver os detalhes completos ou pegar emprestado:",
                 classes="screen-header-desc"
             )
 
             with Horizontal(id="search-bar-container"):
-                yield Input(placeholder="🔍 Pesquisar por nome ou descrição da ferramenta...", id="input-search")
+                yield Input(placeholder="Pesquisar por nome ou descrição da ferramenta...", id="input-search")
                 yield Button("Recarregar", variant="default", id="btn-refresh")
 
             yield DataTable(id="tools-table", cursor_type="row")
@@ -248,8 +248,8 @@ class ToolListScreen(Screen):
                 yield Static("Nenhuma ferramenta selecionada.", id="static-tool-details")
 
             with Horizontal(classes="action-bar"):
-                yield Button("🔙 Voltar ao Menu", variant="default", id="btn-back")
-                yield Button("🤝 Pegar Emprestado", variant="success", id="btn-borrow")
+                yield Button("Voltar ao Menu", variant="default", id="btn-back")
+                yield Button("Pegar Emprestado", variant="success", id="btn-borrow")
 
         yield Footer()
 
@@ -265,7 +265,7 @@ class ToolListScreen(Screen):
 
         for t in tools:
             status_text = f"[green]{t['status']}[/]" if t["status"] == "Disponível" else f"[yellow]{t['status']}[/]"
-            phone_display = t["contact_phone"] if self.app.current_user else "[dim]🔒 Fazer Login[/]"
+            phone_display = t["contact_phone"] if self.app.current_user else "[dim]Fazer Login[/]"
             table.add_row(
                 str(t["id"]),
                 t["name"],
@@ -286,6 +286,10 @@ class ToolListScreen(Screen):
     def on_input_changed(self, event: Input.Changed) -> None:
         if event.input.id == "input-search":
             self.load_tools(search_term=event.value)
+
+    def on_data_table_row_selected(self, event: DataTable.RowSelected) -> None:
+        """Chamado automaticamente quando o usuário pressiona Enter em uma linha da tabela."""
+        self.action_borrow_selected()
 
     def on_data_table_row_highlighted(self, event: DataTable.RowHighlighted) -> None:
         if event.row_key and event.row_key.value:
@@ -364,7 +368,7 @@ class AddToolScreen(Screen):
         yield Header(show_clock=True)
         with Vertical(classes="screen-container"):
             with Vertical(classes="form-container"):
-                yield Label("➕ Cadastrar Nova Ferramenta", classes="screen-header-title")
+                yield Label("Cadastrar Nova Ferramenta", classes="screen-header-title")
                 yield Label("Disponibilize suas ferramentas para outros usuários pegarem emprestado:", classes="screen-header-desc")
 
                 yield Label("Nome da Ferramenta / Modelo:", classes="form-label")
@@ -377,8 +381,8 @@ class AddToolScreen(Screen):
                 yield Input(placeholder="Ex: (11) 98765-4321", id="input-tool-phone", classes="form-input")
 
                 with Horizontal(classes="form-buttons"):
-                    yield Button("🔙 Voltar / Cancelar", variant="default", id="btn-cancel")
-                    yield Button("💾 Cadastrar Ferramenta", variant="success", id="btn-save")
+                    yield Button("Voltar / Cancelar", variant="default", id="btn-cancel")
+                    yield Button("Cadastrar Ferramenta", variant="success", id="btn-save")
 
         yield Footer()
 
@@ -432,7 +436,7 @@ class EditToolModal(ModalScreen[bool]):
 
     def compose(self) -> ComposeResult:
         with Vertical(classes="modal-dialog"):
-            yield Label(f"✏️ Editar: {self.tool['name']}", classes="modal-title")
+            yield Label(f"Editar: {self.tool['name']}", classes="modal-title")
 
             yield Label("Nome:", classes="form-label")
             yield Input(value=self.tool["name"], id="edit-name", classes="form-input")
@@ -448,8 +452,8 @@ class EditToolModal(ModalScreen[bool]):
             yield Select(status_options, value=self.tool["status"], id="edit-status")
 
             with Horizontal(classes="modal-buttons"):
-                yield Button("🔙 Cancelar", variant="default", id="btn-cancel")
-                yield Button("💾 Salvar Alterações", variant="success", id="btn-save")
+                yield Button("Cancelar", variant="default", id="btn-cancel")
+                yield Button("Salvar Alterações", variant="success", id="btn-save")
 
     def on_button_pressed(self, event: Button.Pressed) -> None:
         if event.button.id == "btn-cancel":
@@ -497,7 +501,7 @@ class MyToolsScreen(Screen):
     def compose(self) -> ComposeResult:
         yield Header(show_clock=True)
         with Vertical(classes="screen-container"):
-            yield Label("🧰 Minhas Ferramentas Cadastradas", classes="screen-header-title")
+            yield Label("Minhas Ferramentas Cadastradas", classes="screen-header-title")
             yield Label(
                 "Gerencie suas ferramentas cadastradas, altere disponibilidade ou edite as informações:",
                 classes="screen-header-desc"
@@ -510,11 +514,11 @@ class MyToolsScreen(Screen):
                 yield Static("Nenhuma ferramenta selecionada.", id="static-my-details")
 
             with Horizontal(classes="action-bar"):
-                yield Button("🔙 Voltar ao Menu", variant="default", id="btn-back")
-                yield Button("➕ Nova Ferramenta", variant="default", id="btn-new")
-                yield Button("🔄 Alternar Status", variant="warning", id="btn-toggle")
-                yield Button("✏️ Editar", variant="primary", id="btn-edit")
-                yield Button("🗑️ Excluir", variant="error", id="btn-delete")
+                yield Button("Voltar ao Menu", variant="default", id="btn-back")
+                yield Button("Nova Ferramenta", variant="default", id="btn-new")
+                yield Button("Alternar Status", variant="warning", id="btn-toggle")
+                yield Button("Editar", variant="primary", id="btn-edit")
+                yield Button("Excluir", variant="error", id="btn-delete")
 
         yield Footer()
 
@@ -615,7 +619,7 @@ class MyToolsScreen(Screen):
 
         self.app.push_screen(
             ConfirmModal(
-                title="🗑️ Confirmar Exclusão",
+                title="Confirmar Exclusão",
                 message=f"Deseja realmente excluir permanentemente a ferramenta:\n[bold cyan]'{tool_name}'[/]?",
                 confirm_label="Excluir Definitivamente",
                 cancel_label="Voltar / Cancelar"
@@ -654,7 +658,7 @@ class ProfileScreen(Screen):
         yield Header(show_clock=True)
         with Vertical(classes="screen-container"):
             with Vertical(id="profile-card"):
-                yield Label("👤 Painel de Perfil do Usuário", classes="screen-header-title")
+                yield Label("Painel de Perfil do Usuário", classes="screen-header-title")
                 yield Static(
                     f"Nome de Usuário: [bold cyan]{user.get('username')}[/]\n"
                     f"Identificador (ID): [bold]#{user.get('id')}[/]\n"
@@ -662,7 +666,7 @@ class ProfileScreen(Screen):
                     classes="modal-body"
                 )
 
-                yield Label("📊 Resumo das Ferramentas:", classes="details-title")
+                yield Label("Resumo das Ferramentas:", classes="details-title")
                 with Horizontal(classes="stats-grid"):
                     with Vertical(classes="stat-box"):
                         yield Label(str(stats["total_ferramentas"]), classes="stat-number")
@@ -675,8 +679,8 @@ class ProfileScreen(Screen):
                         yield Label("Emprestadas", classes="stat-label")
 
                 with Horizontal(classes="form-buttons"):
-                    yield Button("🚪 Sair da Conta (Logout)", variant="error", id="btn-profile-logout")
-                    yield Button("🔙 Voltar ao Menu", variant="default", id="btn-profile-back")
+                    yield Button("Sair da Conta (Logout)", variant="error", id="btn-profile-logout")
+                    yield Button("Voltar ao Menu", variant="default", id="btn-profile-back")
 
         yield Footer()
 
@@ -724,23 +728,23 @@ class MainMenuScreen(Screen):
     def compose(self) -> ComposeResult:
         yield Header(show_clock=True)
         with Vertical(id="main-menu-container"):
-            yield Label("🛠️ SISTEMA DE EMPRÉSTIMO DE FERRAMENTAS", id="main-title")
+            yield Label("SISTEMA DE EMPRÉSTIMO DE FERRAMENTAS", id="main-title")
             yield Label("Compartilhamento comunitário de ferramentas e equipamentos", id="main-subtitle")
 
             yield Static(id="session-status-card")
 
             with Vertical(id="visitor-buttons"):
-                yield Button("📋 1. Listar Ferramentas", variant="primary", classes="menu-btn", id="btn-list-tools")
-                yield Button("🔑 2. Fazer Login / Cadastrar", variant="success", classes="menu-btn", id="btn-auth")
-                yield Button("❌ 0. Sair do Aplicativo", variant="error", classes="menu-btn", id="btn-quit")
+                yield Button("1. Listar Ferramentas", variant="primary", classes="menu-btn", id="btn-list-tools")
+                yield Button("2. Fazer Login / Cadastrar", variant="success", classes="menu-btn", id="btn-auth")
+                yield Button("0. Sair do Aplicativo", variant="error", classes="menu-btn", id="btn-quit")
 
             with Vertical(id="logged-in-buttons"):
-                yield Button("📋 1. Listar Todas as Ferramentas", variant="primary", classes="menu-btn", id="btn-list-tools-auth")
-                yield Button("➕ 2. Cadastrar Nova Ferramenta", variant="success", classes="menu-btn", id="btn-add-tool")
-                yield Button("🧰 3. Minhas Ferramentas Cadastradas", variant="default", classes="menu-btn", id="btn-my-tools")
-                yield Button("👤 4. Painel de Perfil & Estatísticas", variant="default", classes="menu-btn", id="btn-profile")
-                yield Button("🚪 5. Sair da Conta (Logout)", variant="warning", classes="menu-btn", id="btn-logout")
-                yield Button("❌ 0. Sair do Aplicativo", variant="error", classes="menu-btn", id="btn-quit-auth")
+                yield Button("1. Listar Todas as Ferramentas", variant="primary", classes="menu-btn", id="btn-list-tools-auth")
+                yield Button("2. Cadastrar Nova Ferramenta", variant="success", classes="menu-btn", id="btn-add-tool")
+                yield Button("3. Minhas Ferramentas Cadastradas", variant="default", classes="menu-btn", id="btn-my-tools")
+                yield Button("4. Painel de Perfil & Estatísticas", variant="default", classes="menu-btn", id="btn-profile")
+                yield Button("5. Sair da Conta (Logout)", variant="warning", classes="menu-btn", id="btn-logout")
+                yield Button("0. Sair do Aplicativo", variant="error", classes="menu-btn", id="btn-quit-auth")
 
         yield Footer()
 
@@ -749,34 +753,44 @@ class MainMenuScreen(Screen):
 
     def on_screen_resume(self) -> None:
         """Chamado quando outra tela é fechada e voltamos ao Menu Principal."""
+        self._update_login_state()
         self.refresh_menu()
+
+    def watch_app_current_user(self) -> None:
+        """
+        Observa mudanças na variável current_user do app principal em tempo real.
+        Sempre que houver login ou logout, atualiza a classe visual da tela instantaneamente.
+        """
+        self._update_login_state()
+
+    def _update_login_state(self) -> None:
+        """Adiciona ou remove a classe .logged-in com base na existência do usuário."""
+        if self.app.current_user:
+            self.add_class("logged-in")
+            # Opcional: Atualize o texto do cartão de status aqui se desejar
+        else:
+            self.remove_class("logged-in")
 
     def refresh_menu(self) -> None:
         """Atualiza a caixa de status e os botões de acordo com o estado atual de login."""
         user = self.app.current_user
         try:
             status_widget = self.query_one("#session-status-card", Static)
-            visitor_box = self.query_one("#visitor-buttons", Vertical)
-            logged_in_box = self.query_one("#logged-in-buttons", Vertical)
         except Exception:
             return
 
         if user:
             status_text = (
-                f"[bold green]🟢 CONECTADO:[/] [bold cyan]{user['username']}[/] (ID #{user['id']})\n"
+                f"[bold green]CONECTADO:[/] [bold cyan]{user['username']}[/] (ID #{user['id']})\n"
                 f"[dim]Sessão ativa salva em login.json[/]"
             )
             status_widget.update(status_text)
-            visitor_box.display = False
-            logged_in_box.display = True
         else:
             status_text = (
-                "[bold yellow]⚪ MODO VISITANTE (Não autenticado)[/]\n"
+                "[bold yellow]MODO VISITANTE (Não autenticado)[/]\n"
                 "[dim]Você pode visualizar o catálogo. Para emprestar ou cadastrar ferramentas, faça login.[/]"
             )
             status_widget.update(status_text)
-            visitor_box.display = True
-            logged_in_box.display = False
 
     def action_open_tool_list(self) -> None:
         self.app.push_screen(ToolListScreen())
@@ -807,7 +821,7 @@ class MainMenuScreen(Screen):
 
             self.app.push_screen(
                 ConfirmModal(
-                    title="🚪 Confirmar Logout",
+                    title="Confirmar Logout",
                     message="Deseja realmente sair da sua conta e retornar ao modo visitante?",
                     confirm_label="Sim, Desconectar",
                     cancel_label="Voltar"
